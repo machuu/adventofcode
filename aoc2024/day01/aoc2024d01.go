@@ -3,33 +3,19 @@ package day01
 import (
 	"fmt"
 	"io"
-	"os"
 	"sort"
-	"strings"
+
+	"github.com/machuu/adventofcode/aoc2024/utils"
 )
-
-func absInt(x int) int {
-	return absDiffInt(x, 0)
-}
-
-func absDiffInt(x, y int) int {
-	if x < y {
-		return y - x
-	}
-	return x - y
-}
 
 func readInputDat(inputDatPath string) ([]int, []int, error) {
 	left := []int{}
 	right := []int{}
 
-	// Ensure the file can be opened
-	inputDat, err := os.ReadFile(inputDatPath)
+	inputDatLines, err := utils.ReadInputDat(inputDatPath)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	inputDatLines := strings.Split(string(inputDat), "\n")
 
 	// Read the file line by line, and populate int arrays
 	//inputDatScanner := bufio.NewScanner(inputDat)
@@ -61,23 +47,15 @@ func calcDistances(left []int, right []int) []int {
 
 	distances := make([]int, len(left))
 	for i := range len(left) {
-		distances[i] = absDiffInt(left[i], right[i])
+		distances[i] = utils.AbsDiffInt(left[i], right[i])
 	}
 
 	return distances
 }
 
-func sumIntSlice(intSlice []int) int {
-	intSum := 0
-	for _, number := range intSlice {
-		intSum += number
-	}
-	return intSum
-}
-
 func getTotalDistanceBetweenLists(left []int, right []int) int {
 	distances := calcDistances(left, right)
-	totalDistance := sumIntSlice(distances)
+	totalDistance := utils.SumIntSlice(distances)
 	return totalDistance
 }
 
