@@ -59,9 +59,6 @@ func calcDistances(left []int, right []int) []int {
 		return nil
 	}
 
-	sort.Ints(left)
-	sort.Ints(right)
-
 	distances := make([]int, len(left))
 	for i := range len(left) {
 		distances[i] = absDiffInt(left[i], right[i])
@@ -78,13 +75,60 @@ func sumIntSlice(intSlice []int) int {
 	return intSum
 }
 
+func getTotalDistanceBetweenLists(left []int, right []int) int {
+	distances := calcDistances(left, right)
+	totalDistance := sumIntSlice(distances)
+	return totalDistance
+}
+
+func countMatchesFromLeftInRight(left []int, right []int) map[int]int {
+	// convert left and right into maps, so each
+	countedMatches := make(map[int]int)
+	for _, leftNum := range left {
+		matches := 0
+		for _, rightNum := range right {
+			// lists are sorted, so break if rightNum > leftNum
+			if rightNum > leftNum {
+				break
+			} else if leftNum == rightNum {
+				matches += 1
+			}
+		}
+		if matches > 0 {
+			//fmt.Printf("{'%d': %d},\n", leftNum, matches)
+			countedMatches[leftNum] = matches
+		}
+	}
+	return countedMatches
+}
+
+func getSimilarityBetweenLists(left []int, right []int) int {
+	countedMatchesFromLeftInRight := countMatchesFromLeftInRight(left, right)
+
+	similarity := 0
+
+	for id, count := range countedMatchesFromLeftInRight {
+		similarity += id * count
+	}
+
+	return similarity
+}
+
 func Solution() {
 	left, right, err := readInputDat("./day01/input.dat")
 	if err != nil {
 		panic(err)
 	}
 
-	distances := calcDistances(left, right)
-	totalDistance := sumIntSlice(distances)
-	fmt.Printf("Day 01 Answer: %d", totalDistance)
+	// sort lists
+	sort.Ints(left)
+	sort.Ints(right)
+
+	// Part 1
+	totalDistance := getTotalDistanceBetweenLists(left, right)
+	fmt.Printf("Day 01 Part 1 Answer: %d\n", totalDistance)
+
+	// Part 2
+	similarity := getSimilarityBetweenLists(left, right)
+	fmt.Printf("Day 01 Part 2 Answer: %d\n", similarity)
 }
