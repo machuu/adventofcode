@@ -65,3 +65,9 @@ func AbsDiffInt(x, y int) int {
 	}
 	return x - y
 }
+
+func Use(vals ...interface{}) {
+	for _, val := range vals {
+		_ = val
+	}
+}

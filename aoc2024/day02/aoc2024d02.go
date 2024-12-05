@@ -17,6 +17,7 @@ func countSafeReports(reports [][]int) int {
 		// get report as string
 		reportJson, _ := json.Marshal(report)
 		reportString := string(reportJson)
+		utils.Use(j, reportString)
 		for i := range len(report) {
 			if i == len(report)-1 {
 				break
@@ -54,15 +55,16 @@ func countSafeReports(reports [][]int) int {
 	return safeReports
 }
 
-func Solution() {
-	fmt.Printf("Day 02 solution\n")
-
+func SolnPart1() {
 	reports, err := utils.ParseInputInto2DIntSlice("./day02/input.dat")
 	if err != nil {
 		panic(err)
 	}
 
 	safeReports := countSafeReports(reports)
-
 	fmt.Printf("Day 02 Part 1 Answer: %d", safeReports)
+}
+
+func Solution() {
+	SolnPart1()
 }
