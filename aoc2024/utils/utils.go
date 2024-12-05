@@ -55,6 +55,14 @@ func SumIntSlice(intSlice []int) int {
 	return intSum
 }
 
+func PopIndexFromIntSlice(index int, sourceIntSlice []int) []int {
+	// append with nil slice to create a copy of sourceIntList
+	// appending original slice overwrite original slice in parent func
+	intSlice := append([]int(nil), sourceIntSlice...)
+	poppedIntSlice := append(intSlice[:index], intSlice[index+1:]...)
+	return poppedIntSlice
+}
+
 func AbsInt(x int) int {
 	return AbsDiffInt(x, 0)
 }
