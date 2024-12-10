@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -45,6 +46,19 @@ func ParseInputInto2DIntSlice(inputDatPath string) ([][]int, error) {
 
 	//fmt.Printf("lineSlices: %s\n", lineSlices)
 	return lineSlices, nil
+}
+
+func GetRegexMatches(regexPatternString string, inputDatPath string) []string {
+	inputDatLines, _ := ReadInputDat(inputDatPath)
+	regexPattern := regexp.MustCompile(regexPatternString)
+
+	var regexMatches []string
+	for _, lineString := range inputDatLines {
+		//
+		regexMatches = append(regexMatches, regexPattern.FindAllString(lineString, -1)...)
+	}
+
+	return regexMatches
 }
 
 func SumIntSlice(intSlice []int) int {
